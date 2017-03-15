@@ -13,12 +13,16 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        MainWindow.cpp
+        MainWindow.cpp \
+    ResultsWindow.cpp
 
 HEADERS  += MainWindow.hpp \
-    json.hpp
+    json.hpp \
+    ResultsWindow.hpp \
+    main.hpp
 
-FORMS    += MainWindow.ui
+FORMS    += MainWindow.ui \
+    ResultsWindow.ui
 
 
 # Use C++14 and link curl library

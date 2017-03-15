@@ -1,12 +1,19 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
+#include <string>
+
 #include <QMainWindow>
+
+
+// Forward declarations
+class ResultsWindow;
 
 // Protect the global namespace
 namespace Ui {
     class MainWindow;
 }
+
 
 // The main window class
 class MainWindow : public QMainWindow {
@@ -19,10 +26,18 @@ public:
     // Destructor
     ~MainWindow();
 
+    // Get the selected artist
+    std::string getArtist() const;
+
+private slots:
+
+    // Creates a new search window
+    void spawnSearch(bool) const;
+
 private:
 
     // Representation
-    Ui::MainWindow *ui;
+    Ui::MainWindow * ui;
 };
 
 #endif // MAINWINDOW_HPP
