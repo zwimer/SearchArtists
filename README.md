@@ -6,6 +6,10 @@
 
 
 ## Requirements
+C++14
+json.hpp
+libcurl
+	-lcurl
 
 ## Installation Instructions
 First clone this repository
