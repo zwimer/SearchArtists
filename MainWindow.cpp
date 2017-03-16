@@ -45,7 +45,7 @@ void MainWindow::spawnSearch(bool) {
     // Don't worry about leaks, destructor handles them
     (new ResultsWindow( this ))->show();
 
-    // Clear the lineedit
+    // Clear the lineEdit
     ui->lineEdit->clear();
 }
 

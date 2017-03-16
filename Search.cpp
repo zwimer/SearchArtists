@@ -22,7 +22,7 @@ inline std::string gatherData(const std::string & url) {
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ret);
 
-    // Get information from the url url
+    // Get information from the url: url
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 
     // Preform the download
@@ -32,7 +32,7 @@ inline std::string gatherData(const std::string & url) {
     curl_easy_cleanup(curl);
     curl_global_cleanup();
 
-    // If ret is bad, note so
+    // If ret is empty, note so
     bool isBad = true;
     for(size_t i = 0; i < ret.size(); ++i) {
         if (!isspace(i)) {

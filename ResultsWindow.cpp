@@ -14,7 +14,7 @@
 
 /*****************************************************************/
 /*                                                               */
-/*                    Forwdward declearations                    */
+/*                      Forward declarations                     */
 /*                                                               */
 /*****************************************************************/
 
@@ -54,7 +54,7 @@ ResultsWindow::ResultsWindow( const MainWindow * p ) :
     int n = js["resultCount"];
     media = js["results"];
 
-    // Populate the list widget and itmToSong
+    // Populate the list widget
     for(int i = 0; i < n; i++) {
         ui->listWidget->addItem( format(media[i]) );
     }
@@ -145,7 +145,7 @@ inline const QString toQ(const json & j) {
     std::stringstream s; s << j;
     std::string ret = s.str();
 
-    // Remove undeeded "s if needed
+    // Remove unneeded "s if needed
     if (ret.size()) if (ret[0] == '\"') ret.erase(0, 1);
     if (ret.size()) if (ret[ret.size()-1] == '\"') ret.pop_back();
 
