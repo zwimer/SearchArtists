@@ -45,10 +45,12 @@ ResultsWindow::ResultsWindow( const MainWindow * p ) :
     ui->tableWidget->setHorizontalHeaderLabels(
                 QString("Category;Information").split(";") );
 
-    // TODO: check if getArtist is a valid artist !!!
+    // Get selected artist, set window title to him
+    std::string artist = p->getArtist();
+    setWindowTitle( QObject::tr("Media by: ") + QObject::tr(artist.c_str()) );
 
     // Search for the selected artist
-    json js = search( p->getArtist() );
+    json js = search( artist );
     int n = js["resultCount"];
     media = js["results"];
 
@@ -71,12 +73,17 @@ ResultsWindow::~ResultsWindow() {
 // Update the display with info from the selected song
 void ResultsWindow::updateDisplay( int row ) {
 
+    // Error checking
+    if (row < 0) return;
+
     // For clarity
     const json & track = media[ row ];
 
     // Clear the tableWidget
     ui->tableWidget->clear();
     ui->tableWidget->setRowCount(0);
+    ui->tableWidget->setHorizontalHeaderLabels(
+                QString("Category;Information").split(";") );
 
     // For each element in media[i], add it to the tableWidget
     for (json::const_iterator i = track.begin(); i != track.end(); ++i) {
@@ -107,6 +114,12 @@ void ResultsWindow::updateDisplay( int row ) {
 
 // Format a given date
 inline const std::string formatDate( const std::string& d ) {
+
+    // Error checking
+    if (d.size() < 6) return "NA";
+    if (d.find("T") == std::string::npos) return "NA";
+
+    // Return the formatted date
     return std::move(
                 std::string(d.substr(5, d.find("T") - 5))
                 + std::string("-")

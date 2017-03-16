@@ -15,13 +15,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         MainWindow.cpp \
     ResultsWindow.cpp \
-    Search.cpp
+    Search.cpp \
+    CurlFailed.cpp
 
 HEADERS  += MainWindow.hpp \
     json.hpp \
     ResultsWindow.hpp \
     main.hpp \
-    Search.hpp
+    Search.hpp \
+    CurlFailed.hpp
 
 FORMS    += MainWindow.ui \
     ResultsWindow.ui
