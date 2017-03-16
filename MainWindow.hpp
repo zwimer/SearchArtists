@@ -32,7 +32,7 @@ public:
 private slots:
 
     // Creates a new search window
-    void spawnSearch(bool) const;
+    void spawnSearch(bool);
 
 private:
 

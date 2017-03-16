@@ -22,14 +22,15 @@ MainWindow::~MainWindow() {
 
 // Get the name or the selected artist
 std::string MainWindow::getArtist() const {
-    return std::move(ui->lineEdit->text()).toLatin1().constData();
+    return std::move( ui->lineEdit->text().toLatin1().constData() );
 }
 
-// Spawn a search window
-void MainWindow::spawnSearch(bool) const {
+// Spawn a search window then clear line edit
+void MainWindow::spawnSearch(bool) {
 
     // Create a new window, and show it
     // Don't worry about leaks, destructor handles them
     (new ResultsWindow( this ))->show();
+    ui->lineEdit->clear();
 }
 

@@ -6,7 +6,9 @@
 #include <json.hpp>
 
 // For readability
-using json = nlohmann::json;
+using jsn = nlohmann::json;
 
+// For clarity (this type is huge to type by hand)
+typedef decltype(jsn::parse("")) json;
 
 #endif // MAIN_HPP

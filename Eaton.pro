@@ -14,12 +14,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         MainWindow.cpp \
-    ResultsWindow.cpp
+    ResultsWindow.cpp \
+    Search.cpp
 
 HEADERS  += MainWindow.hpp \
     json.hpp \
     ResultsWindow.hpp \
-    main.hpp
+    main.hpp \
+    Search.hpp
 
 FORMS    += MainWindow.ui \
     ResultsWindow.ui
