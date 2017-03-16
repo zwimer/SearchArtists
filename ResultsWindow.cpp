@@ -40,11 +40,10 @@ ResultsWindow::ResultsWindow( const MainWindow * p ) :
     // Setup the ui
     ui->setupUi(this);
 
-    // Setup the treeWidget
-    ui->treeWidget->setColumnCount(1);
-    ui->treeWidget->setHeaderLabels(
-                QStringList() << QObject::tr("Track Information")
-    );
+    // Setup the tableWidget
+    ui->tableWidget->setColumnCount(2);
+    ui->tableWidget->setHorizontalHeaderLabels(
+                QString("Category;Information").split(";") );
 
     // TODO: check if getArtist is a valid artist !!!
 
@@ -75,50 +74,27 @@ void ResultsWindow::updateDisplay( int row ) {
     // For clarity
     const json & track = media[ row ];
 
-    // Record expanded items
-    std::set< QString > expanded;
-    for(QTreeWidgetItemIterator i(ui->treeWidget); *i; ++i) {
-        if ((*i)->isExpanded()) expanded.insert((*i)->text(0));
-    }
+    // Clear the tableWidget
+    ui->tableWidget->clear();
+    ui->tableWidget->setRowCount(0);
 
-    // Clear the treeWidget
-    ui->treeWidget->clear();
-
-    // For recording the track name
-    QString trackName = tr("trackName");
-    QString name;
-
-    // For each element in media[i], add it to the treeWidget
+    // For each element in media[i], add it to the tableWidget
     for (json::const_iterator i = track.begin(); i != track.end(); ++i) {
 
-        // Create a new item titled i.key()
-        auto * newItem = new QTreeWidgetItem( ui->treeWidget );
-        const QString iKey = toQ(i.key());
-        newItem->setText(0, iKey);
+        // Create category and information containing i
+        auto * newLeft = new QTableWidgetItem( toQ(i.key()) );
+        auto * newRight = new QTableWidgetItem( toQ(i.value()));
 
-        // Create a new item titled i.value()
-        auto * newItemChild = new QTreeWidgetItem();
-        const QString iValue = toQ(i.value());
-        newItemChild->setText( 0, iValue );
-
-        // Name the child in the relationship, then add it to the treeWidget
-        newItem->addChild( newItemChild );
-        ui->treeWidget->addTopLevelItem( newItem );
-
-        // Record track name if applicable
-        if (iKey == trackName) name = iKey;
+        // Add new items to the tableWidget
+        const int n = ui->tableWidget->rowCount();
+        ui->tableWidget->insertRow( n );
+        ui->tableWidget->setItem( n, 0, newLeft );
+        ui->tableWidget->setItem( n, 1, newRight );
     }
 
-    // Rename header to include song title
-    ui->treeWidget->setHeaderLabels(
-        QStringList() << QObject::tr("\"") + name + QObject::tr("\" information")
-    );
-
-    // Expand items as needed
-    for(QTreeWidgetItemIterator i(ui->treeWidget); *i; ++i) {
-        if (expanded.find((*i)->text(0)) != expanded.end())
-            (*i)->setExpanded(true);
-    }
+    // Resize the table as needed
+    ui->tableWidget->resizeColumnsToContents();
+    ui->tableWidget->resizeRowsToContents();
 }
 
 
