@@ -1,6 +1,9 @@
 #ifndef RESULTSWINDOW_HPP
 #define RESULTSWINDOW_HPP
 
+#include "main.hpp"
+
+#include <QListWidgetItem>
 #include <QDialog>
 
 
@@ -31,10 +34,16 @@ public:
     // Destructor
     ~ResultsWindow();
 
+private slots:
+
+    // Update the display with info from the selected song
+    void updateDisplay( int row );
+
 private:
 
     //Representation
     Ui::ResultsWindow *ui;
+    json media;
 };
 
 #endif // RESULTSWINDOW_HPP
