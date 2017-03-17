@@ -35,7 +35,7 @@ private slots:
     void spawnSearch(bool);
 
     // Load info from a file
-    void chooseFile(bool) const;
+    void loadFromFile(bool) const;
 
 private:
 

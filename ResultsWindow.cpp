@@ -147,7 +147,7 @@ void ResultsWindow::updateDisplay( int row ) {
 
 // Save artist's information to a file
 #include <QDebug>
-void ResultsWindow::saveArtist(bool) {
+void ResultsWindow::saveArtist(bool) const {
 
     // Choose the directory
     const std::string dir = QFileDialog::getExistingDirectory(
@@ -167,7 +167,7 @@ void ResultsWindow::saveArtist(bool) {
     if (test.good()) {
         std::string msg = "Cannot save here. ";
         msg += artist + ".json already exists in this directory.";
-        throw new Error( msg );
+        throw new Error( msg.c_str() );
     }
     else test.close();
 

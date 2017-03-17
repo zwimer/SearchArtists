@@ -11,7 +11,8 @@ using jsn = nlohmann::json;
 // For clarity (this type is huge to type by hand)
 typedef decltype(jsn::parse("")) json;
 
+
 // Returns true if s is all whitespace
-const bool isAllSpace( const std::string& s );
+bool isAllSpace( const std::string& s );
 
 #endif // MAIN_HPP

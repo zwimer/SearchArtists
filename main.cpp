@@ -11,7 +11,7 @@
 
 
 // Returns true if s is all whitespace
-const bool isAllSpace(const std::string & s) {
+bool isAllSpace(const std::string & s) {
     for(size_t i = 0; i < s.size(); ++i)
         if (!isspace(s[i]))
             return false;

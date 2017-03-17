@@ -8,8 +8,9 @@
 class Error : public std::exception {
 public:
 
-    // Constructor
-    Error( const std::string what );
+    // Constructors
+    explicit Error( const char * what );
+    explicit Error( std::string & what );
 
     // What happened
     const char * what() const throw();

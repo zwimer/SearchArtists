@@ -44,7 +44,7 @@ private slots:
     void updateDisplay( int row );
 
     // Save artist's information to a file
-    void saveArtist(bool);
+    void saveArtist(bool) const;
 
 private:
 

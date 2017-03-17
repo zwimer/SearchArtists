@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Connect the load button to selecting a file
     QObject::connect( ui->loadButton, SIGNAL( clicked(bool) ),
-                      this, SLOT( chooseFile(bool) ) );
+                      this, SLOT( loadFromFile(bool) ) );
 }
 
 // Destructor
@@ -65,7 +65,7 @@ void MainWindow::spawnSearch(bool) {
 }
 
 // Choose a file to read the json in from
-void MainWindow::chooseFile(bool) const {
+void MainWindow::loadFromFile(bool) const {
 
     // Get the in file
     const std::string inFileName = QFileDialog::getOpenFileName(
