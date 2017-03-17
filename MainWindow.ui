@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>224</width>
-    <height>102</height>
+    <width>221</width>
+    <height>135</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,13 +17,13 @@
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>8</x>
-      <y>5</y>
-      <width>211</width>
-      <height>91</height>
+      <x>10</x>
+      <y>10</y>
+      <width>201</width>
+      <height>116</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
@@ -38,6 +38,13 @@
       <widget class="QPushButton" name="pushButton">
        <property name="text">
         <string>Search</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="loadButton">
+       <property name="text">
+        <string>Load Data From File</string>
        </property>
       </widget>
      </item>

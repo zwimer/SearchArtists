@@ -5,11 +5,11 @@
 #include <string>
 
 // Thrown when curl fails
-class CurlFailed : public std::exception {
+class Error : public std::exception {
 public:
 
     // Constructor
-    CurlFailed( const std::string what );
+    Error( const std::string what );
 
     // What happened
     const char * what() const throw();

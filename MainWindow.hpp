@@ -34,6 +34,9 @@ private slots:
     // Creates a new search window
     void spawnSearch(bool);
 
+    // Load info from a file
+    void chooseFile(bool) const;
+
 private:
 
     // Representation

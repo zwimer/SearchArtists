@@ -31,6 +31,10 @@ public:
     // Explicit Constructor, prevent implicit conversion
     explicit ResultsWindow( const MainWindow * p );
 
+    // Constructor: take in string as data
+    explicit ResultsWindow( const std::string& who,
+                            const std::string& data );
+
     // Destructor
     ~ResultsWindow();
 
@@ -41,7 +45,14 @@ private slots:
 
 private:
 
-    //Representation
+    // Setup the ui
+    void setup();
+
+    // Construct listWidget and media
+    // Also connect signals and slots
+    void finishSetup( const json& artist );
+
+    // Representation
     Ui::ResultsWindow *ui;
     json media;
 };

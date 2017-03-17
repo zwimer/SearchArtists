@@ -1,5 +1,5 @@
 #include "Search.hpp"
-#include "CurlFailed.hpp"
+#include "Error.hpp"
 #include "main.hpp"
 
 
@@ -35,14 +35,14 @@ inline std::string gatherData(const std::string & url) {
     // If ret is empty, note so
     bool isBad = true;
     for(size_t i = 0; i < ret.size(); ++i) {
-        if (!isspace(i)) {
+        if (!isspace(ret[i])) {
             isBad = false;
             break;
         }
     }
 
     // If the string is bad, throw an exception
-    if (isBad) throw new CurlFailed("Curl failed. Check your wifi");
+    if (isBad) throw new Error("Curl failed. Check your wifi");
 
     // Return the string efficiently
     return std::move(ret);

@@ -16,14 +16,14 @@ SOURCES += main.cpp\
         MainWindow.cpp \
     ResultsWindow.cpp \
     Search.cpp \
-    CurlFailed.cpp
+    Error.cpp
 
 HEADERS  += MainWindow.hpp \
     json.hpp \
     ResultsWindow.hpp \
     main.hpp \
     Search.hpp \
-    CurlFailed.hpp
+    Error.hpp
 
 FORMS    += MainWindow.ui \
     ResultsWindow.ui

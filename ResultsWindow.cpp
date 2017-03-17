@@ -2,6 +2,7 @@
 #include "ui_ResultsWindow.h"
 #include "MainWindow.hpp"
 #include "Search.hpp"
+#include "Error.hpp"
 #include "main.hpp"
 
 // QT
@@ -37,13 +38,8 @@ inline const QString toQ(const json & j);
 ResultsWindow::ResultsWindow( const MainWindow * p ) :
     QDialog( nullptr ), ui(new Ui::ResultsWindow) {
 
-    // Setup the ui
-    ui->setupUi(this);
-
-    // Setup the tableWidget
-    ui->tableWidget->setColumnCount(2);
-    ui->tableWidget->setHorizontalHeaderLabels(
-                QString("Category;Information").split(";") );
+    // Setup ui
+    setup();
 
     // Get selected artist, set window title to him
     std::string artist = p->getArtist();
@@ -51,6 +47,51 @@ ResultsWindow::ResultsWindow( const MainWindow * p ) :
 
     // Search for the selected artist
     json js = search( artist );
+
+    // Finish setup
+    finishSetup( js );
+}
+
+// Constructor: take in string as data
+ResultsWindow::ResultsWindow( const std::string& who,
+                              const std::string& data ) :
+    QDialog( nullptr ), ui(new Ui::ResultsWindow) {
+
+    // Setup ui
+    setup();
+
+    // Set window title to artist's name
+    setWindowTitle( QObject::tr("Media by: ") + QObject::tr(who.c_str()) );
+
+    // Parse the given data
+    json js = jsn::parse( data );
+
+    // Finish setup
+    finishSetup( js );
+}
+
+// Destructor, prevent leaks
+ResultsWindow::~ResultsWindow() {
+    delete this;
+}
+
+// Setup the ui
+void ResultsWindow::setup() {
+
+    // Setup the ui
+    ui->setupUi(this);
+
+    // Setup the tableWidget
+    ui->tableWidget->setColumnCount(2);
+    ui->tableWidget->setHorizontalHeaderLabels(
+                QString("Category;Information").split(";") );
+}
+
+// Construct listWidget and media
+// Also connect signals and slots
+void ResultsWindow::finishSetup( const json& js ) {
+
+    // Parse js
     int n = js["resultCount"];
     media = js["results"];
 
@@ -59,16 +100,10 @@ ResultsWindow::ResultsWindow( const MainWindow * p ) :
         ui->listWidget->addItem( format(media[i]) );
     }
 
-    // Connect selecting an item to display it's information
+    // Connect selecting an item to displayng it's information
     QObject::connect( ui->listWidget, SIGNAL(currentRowChanged( int )),
                       this, SLOT( updateDisplay( int ) ) );
 }
-
-// Destructor, prevent leaks
-ResultsWindow::~ResultsWindow() {
-    delete this;
-}
-
 
 // Update the display with info from the selected song
 void ResultsWindow::updateDisplay( int row ) {
