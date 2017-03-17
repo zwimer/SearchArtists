@@ -5,7 +5,7 @@
 
 
 // Search for who, return a parsed json
-json search( std::string who );
+const std::string search( std::string who );
 
 
 #endif // SEARCH_H

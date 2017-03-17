@@ -43,6 +43,9 @@ private slots:
     // Update the display with info from the selected song
     void updateDisplay( int row );
 
+    // Save artist's information to a file
+    void saveArtist(bool);
+
 private:
 
     // Setup the ui
@@ -54,6 +57,8 @@ private:
 
     // Representation
     Ui::ResultsWindow *ui;
+    std::string artist;
+    std::string input;
     json media;
 };
 

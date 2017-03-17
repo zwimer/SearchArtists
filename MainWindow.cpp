@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 "your results should pop up."
     );
 
-    //Warn the user
+    // Warn the user
     QMessageBox::warning(NULL, QObject::tr("Warning"),
                 txt, QMessageBox::Ok, QMessageBox::Ok);
 
@@ -69,11 +69,14 @@ void MainWindow::chooseFile(bool) const {
 
     // Get the in file
     const std::string inFileName = QFileDialog::getOpenFileName(
-        NULL,
+        nullptr,
         tr("Choose the file to read from:"),
         QStandardPaths::writableLocation(QStandardPaths::DesktopLocation),
         tr("JSON (*.json)")
     ).toLatin1().constData();
+
+    // Error checking
+    if (isAllSpace(inFileName)) return;
 
     // Read from the in file
     std::ifstream inFile(inFileName);
@@ -86,18 +89,10 @@ void MainWindow::chooseFile(bool) const {
     std::stringstream buf;
     buf << inFile.rdbuf();
     const std::string info = buf.str();
-
-    // Check the contents of the file
-    bool isBad = true;
-    for(size_t i = 0; i < info.size(); ++i) {
-        if (!isspace(info[i])) {
-            isBad = false;
-            break;
-        }
-    }
+    inFile.close();
 
     // If file is empty, throw an exception
-    if (isBad) throw new Error("Bad file");
+    if (isAllSpace(info)) throw new Error("Bad file");
 
     // Get and format the artist's name, error check while doing so
     std::string artist = basename( (char *) inFileName.c_str() );

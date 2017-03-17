@@ -8,8 +8,12 @@
 // QT
 #include <QTreeWidgetItemIterator>
 #include <QTreeWidgetItem>
+#include <QStandardPaths>
+#include <QMessageBox>
+#include <QFileDialog>
 
 // STL
+#include <fstream>
 #include <set>
 
 
@@ -42,32 +46,30 @@ ResultsWindow::ResultsWindow( const MainWindow * p ) :
     setup();
 
     // Get selected artist, set window title to him
-    std::string artist = p->getArtist();
+    artist = p->getArtist();
     setWindowTitle( QObject::tr("Media by: ") + QObject::tr(artist.c_str()) );
 
     // Search for the selected artist
-    json js = search( artist );
+    input = search( artist );
 
     // Finish setup
-    finishSetup( js );
+    finishSetup( jsn::parse( input ) );
 }
 
 // Constructor: take in string as data
 ResultsWindow::ResultsWindow( const std::string& who,
                               const std::string& data ) :
-    QDialog( nullptr ), ui(new Ui::ResultsWindow) {
+    QDialog( nullptr ), ui(new Ui::ResultsWindow),
+    artist(who), input(data) {
 
     // Setup ui
     setup();
 
     // Set window title to artist's name
-    setWindowTitle( QObject::tr("Media by: ") + QObject::tr(who.c_str()) );
-
-    // Parse the given data
-    json js = jsn::parse( data );
+    setWindowTitle( QObject::tr("Media by: ") + QObject::tr(artist.c_str()) );
 
     // Finish setup
-    finishSetup( js );
+    finishSetup( jsn::parse( data ) );
 }
 
 // Destructor, prevent leaks
@@ -101,8 +103,12 @@ void ResultsWindow::finishSetup( const json& js ) {
     }
 
     // Connect selecting an item to displayng it's information
-    QObject::connect( ui->listWidget, SIGNAL(currentRowChanged( int )),
+    QObject::connect( ui->listWidget, SIGNAL( currentRowChanged( int ) ),
                       this, SLOT( updateDisplay( int ) ) );
+
+    // Connect hitting save to saving the artist's information
+    QObject::connect( ui->saveButton, SIGNAL( clicked(bool) ),
+                      this, SLOT( saveArtist(bool) ) );
 }
 
 // Update the display with info from the selected song
@@ -139,6 +145,47 @@ void ResultsWindow::updateDisplay( int row ) {
     ui->tableWidget->resizeRowsToContents();
 }
 
+// Save artist's information to a file
+#include <QDebug>
+void ResultsWindow::saveArtist(bool) {
+
+    // Choose the directory
+    const std::string dir = QFileDialog::getExistingDirectory(
+        nullptr,
+        tr("Choose the directory to save the file to"),
+        QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)
+    ).toLatin1().constData();
+
+    // Error checking
+    if (isAllSpace(dir)) return;
+
+    // Create the filename
+    const std::string fileName = dir + artist + ".json";
+
+    // Check if file exists
+    std::ifstream test(fileName);
+    if (test.good()) {
+        std::string msg = "Cannot save here. ";
+        msg += artist + ".json already exists in this directory.";
+        throw new Error( msg );
+    }
+    else test.close();
+
+    // Create the file, error check
+    std::ofstream outFile(fileName);
+    if (outFile.bad()) throw new Error( "Save file could not be created");
+
+    // Write to the file and close it.
+    outFile << input;
+    outFile.close();
+
+    // Inform the user that the save was successful
+    QString txt = tr( artist.c_str() );
+    txt += tr("'s information was successfully saved to the file: ");
+    txt += tr( fileName.c_str() );
+    QMessageBox::warning(NULL, tr("Save complete"),
+                txt, QMessageBox::Ok, QMessageBox::Ok);
+}
 
 /*****************************************************************/
 /*                                                               */
