@@ -14,17 +14,17 @@ This application requires a C++14 compiler, json.hpp (included), and libcurl.
 
 First clone this repository
 ```bash
-	git clone https://github.com/zwimer/SearchArtists
+git clone https://github.com/zwimer/SearchArtists
 ```
 
 Next make a build directory and cd into it
 ```bash
-	mkdir SearchArtists/build && SearchArtists/build 
+mkdir SearchArtists/build && SearchArtists/build 
 ```
 
 Then run qmake followed by make
 ```bash
-	qmake ../Eaton.pro && make
+qmake ../Eaton.pro && make
 ```
 
 ## Usage
