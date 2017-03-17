@@ -160,16 +160,21 @@ void ResultsWindow::saveArtist(bool) const {
     if (isAllSpace(dir)) return;
 
     // Create the filename
-    const std::string fileName = dir + artist + ".json";
+    const std::string fileName = dir + "/" + artist + ".json";
 
     // Check if file exists
     std::ifstream test(fileName);
-    if (test.good()) {
-        std::string msg = "Cannot save here. ";
-        msg += artist + ".json already exists in this directory.";
-        throw new Error( msg.c_str() );
+    const bool fileExists = test.good();
+    test.close();
+
+    // If so, inform the user then return
+    if (fileExists) {
+        QString msg = tr("Cannot save here. \"");
+        msg += tr(artist.c_str()) + tr(".json\" already exists in this directory.");
+        QMessageBox::warning(NULL, tr("Cannot save here"),
+            msg, QMessageBox::Ok, QMessageBox::Ok);
+        return;
     }
-    else test.close();
 
     // Create the file, error check
     std::ofstream outFile(fileName);
@@ -181,9 +186,9 @@ void ResultsWindow::saveArtist(bool) const {
 
     // Inform the user that the save was successful
     QString txt = tr( artist.c_str() );
-    txt += tr("'s information was successfully saved to the file: ");
-    txt += tr( fileName.c_str() );
-    QMessageBox::warning(NULL, tr("Save complete"),
+    txt += tr("'s information was successfully saved to the file: \"");
+    txt += tr( fileName.c_str() ) + tr("\"");
+    QMessageBox::information(NULL, tr("Save complete"),
                 txt, QMessageBox::Ok, QMessageBox::Ok);
 }
 
