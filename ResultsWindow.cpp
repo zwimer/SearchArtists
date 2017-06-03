@@ -146,7 +146,6 @@ void ResultsWindow::updateDisplay( int row ) {
 }
 
 // Save artist's information to a file
-#include <QDebug>
 void ResultsWindow::saveArtist(bool) const {
 
     // Choose the directory
